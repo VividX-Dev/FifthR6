@@ -43,8 +43,7 @@ private:
 	UFUNCTION()
 		void AnimNotify_SAttackHitCheck();
 
-	UFUNCTION()
-		void AnimNotify_P_Sparks();
+	
 
 	UFUNCTION()
 		void AnimNotify_NextAttackCheck();

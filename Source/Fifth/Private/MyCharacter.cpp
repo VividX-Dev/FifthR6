@@ -45,6 +45,8 @@ AMyCharacter::AMyCharacter()
 	GetCapsuleComponent()->SetCapsuleHalfHeight(88.0f);
 	GetCapsuleComponent()->SetCapsuleRadius(100);
 
+	
+
 
 	SetControlMode(0);
 	IsAttacking = false;
@@ -61,18 +63,6 @@ AMyCharacter::AMyCharacter()
 
 	AssetIndex = 2;
 
-	
-
-	/*CharacterAssetToLoad = DefaultSetting->WarriorAssets[AssetIndex];
-	auto MyGameInstance = Cast<UMyGameInstance>(GetGameInstance());
-	ABCHECK(nullptr != MyGameInstance);
-	AssetStreamingHandle = MyGameInstance->StreamableManager.RequestAsyncLoad(CharacterAssetToLoad,
-		FStreamableDelegate::CreateUObject(this, &AMyCharacter::OnAssetLoadCompleted));
-
-	
-
-	SetActorHiddenInGame(true);
-	SetCanBeDamaged(false);*/
 
 	DeadTimer = 5.0f;
 }
@@ -148,7 +138,7 @@ void AMyCharacter::SetWarriorState(ECharacterState NewState)
 			});
 
 		SetControlMode(0);
-		GetCharacterMovement()->MaxWalkSpeed = 600.0f;
+		GetCharacterMovement()->MaxWalkSpeed = 2000.0f;
 		EnableInput(MyPlayerController);
 
 		break;
@@ -215,15 +205,29 @@ void AMyCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+
+	
+
 	if (IsAttacking || IsSAttacking)
 	{
 		//ABLOG(Warning, TEXT("TICK"));
-		
-		//FVector MyCharacter = GetActorLocation() + (100.0f, 0.0f, 0.0f);
-		SetActorLocation(GetActorLocation() + GetControlRotation().Vector());
-		
 
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString::Printf(TEXT("Player Location: %s"), *MyCharacter.ToString()));
+		if (VelSum >= 300.0f) {
+			Velocity = 0.0f;
+			ABLOG(Warning, TEXT("111"));
+		}
+		else {
+			VelSum += Velocity;
+			ABLOG(Warning, TEXT("222"));
+		}
+		SetActorLocation(GetActorLocation() + GetControlRotation().Vector() * Velocity);
+
+
+	}
+	else {
+		Velocity = 50.0f;
+		VelSum = 0.f;
+		//ABLOG(Warning, TEXT("Vel3"));
 	}
 
 }

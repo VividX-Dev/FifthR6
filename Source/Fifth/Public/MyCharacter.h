@@ -33,8 +33,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UPROPERTY(VisibleAnywhere, Category = Weapon)
-		UStaticMeshComponent* Weapon;
+	
 
 	UPROPERTY(VisibleAnywhere, Category = Stat)
 		class UWarriorStatComponent* WarriorStat;
@@ -84,7 +83,8 @@ private:
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = Attack, Meta = (AllowPrivateAccess = true))
 		bool beChecked;
 	
-
+	double VelSum = 0.f;
+	double Velocity = 5.f;
 
 
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = Attack, Meta = (AllowPrivateAccess = true))

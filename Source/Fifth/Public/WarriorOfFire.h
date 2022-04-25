@@ -18,7 +18,9 @@ public:
 	// Sets default values for this character's properties
 	AWarriorOfFire();
 
-	
+public:
+	UPROPERTY(VisibleAnywhere, Category = Weapon)
+		UStaticMeshComponent* Weapon;
 
 
 private:

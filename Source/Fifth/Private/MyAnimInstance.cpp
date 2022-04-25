@@ -64,10 +64,7 @@ void UMyAnimInstance::JumpToAttackMontageSection(int32 NewSection)
 	//GEngine->AddOnScreenDebugMessage(-1, 10, FColor::Red, FString::Printf(TEXT("NewSection : %d "), NewSection));
 }
 
-void UMyAnimInstance::AnimNotify_P_Sparks()
-{
-	
-}
+
 
 void UMyAnimInstance::AnimNotify_AttackHitCheck()
 {

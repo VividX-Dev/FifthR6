@@ -32,4 +32,7 @@ private:
 	UPROPERTY()
 		class UMyHUDWidget* HUDWidget;
 
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Meta = (AllowPrivateAccess = true))
+		bool ChangePawn;
+
 };

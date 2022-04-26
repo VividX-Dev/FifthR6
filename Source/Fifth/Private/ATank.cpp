@@ -241,7 +241,7 @@ float AATank::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AC
 	ABLOG(Warning, TEXT("Actor : %s took Damage : %f"), *GetName(), FinalDamage);
 	Damaged();
 	TankStat->SetDamage(FinalDamage);
-
+	
 	ABLOG(Warning, TEXT("ACCESSGRANTED!!!"));
 	UNiagaraSystem* HitEffect =
 		Cast<UNiagaraSystem>(StaticLoadObject(UNiagaraSystem::StaticClass(), NULL,
@@ -263,10 +263,12 @@ void AATank::PossessedBy(AController* NewController)
 
 void AATank::Attack()
 {
-	if (IsAttacking) return;
+	if (IsDamaging == false) {
+		if (IsAttacking) return;
 
-	ATAnim->PlayAttackMontage();
-	IsAttacking = true;
+		ATAnim->PlayAttackMontage();
+		IsAttacking = true;
+	}
 }
 
 void AATank::Damaged()

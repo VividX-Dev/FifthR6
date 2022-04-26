@@ -19,6 +19,8 @@ AMyGameMode::AMyGameMode()
 	//DefaultPawnClass = AWarriorOfWater::StaticClass();
 	//DefaultPawnClass = AWarriorOfThunder::StaticClass();
 	//DefaultPawnClass = AMFire::StaticClass();
+	
+
 	//DefaultPawnClass = AMWater::StaticClass();
 	//DefaultPawnClass = AMThunder::StaticClass();
 	PlayerControllerClass = AMyPlayerController::StaticClass();

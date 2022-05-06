@@ -140,7 +140,7 @@ void AMyCharacter::SetWarriorState(ECharacterState NewState)
 			});
 
 		SetControlMode(0);
-		GetCharacterMovement()->MaxWalkSpeed = 2000.0f;
+		GetCharacterMovement()->MaxWalkSpeed = 1000.0f;
 		EnableInput(MyPlayerController);
 
 		break;
@@ -256,6 +256,7 @@ void AMyCharacter::PostInitializeComponents()
 	MyAnim->OnMontageEnded.AddDynamic(this, &AMyCharacter::OnAttackMontageEnded);
 	MyAnim->OnMontageEnded.AddDynamic(this, &AMyCharacter::OnSAttackMontageEnded);
 	MyAnim->OnMontageEnded.AddDynamic(this, &AMyCharacter::OnTAttackMontageEnded);
+	MyAnim->OnMontageEnded.AddDynamic(this, &AMyCharacter::OnDamagedMontageEnded);
 
 	MyAnim->OnTNextAttackCheck.AddLambda([this]()->void {
 		ABLOG(Warning, TEXT("OnTNextAttackCheck"));
@@ -346,6 +347,7 @@ float AMyCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEve
 	float FinalDamage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 	ABLOG(Warning, TEXT("Actor : %s took Damage : %f"), *GetName(), FinalDamage);
 
+	Damaged();
 	WarriorStat->SetDamage(FinalDamage);
 
 	return FinalDamage;
@@ -385,25 +387,27 @@ void AMyCharacter::Turn(float NewAxisValue)
 
 void AMyCharacter::Attack()
 {
-	if (IsAttacking)
-	{
-		
-
-		ABCHECK(FMath::IsWithinInclusive<int32>(CurrentCombo, 1, MaxCombo));
-		if (CanNextCombo)
+	if (IsDamaging == false) {
+		if (IsAttacking)
 		{
-			IsComboInputOn = true;
-			
+
+
+			ABCHECK(FMath::IsWithinInclusive<int32>(CurrentCombo, 1, MaxCombo));
+			if (CanNextCombo)
+			{
+				IsComboInputOn = true;
+
+			}
 		}
-	}
-	else
-	{
-		ABCHECK(CurrentCombo == 0);
-		AttackStartComboState();
-		MyAnim->PlayAttackMontage();
-		//beChecked = true;
-		//MyAnim->JumpToAttackMontageSection(CurrentCombo);//강제 이동이 아닌 조건성립으로
-		IsAttacking = true;
+		else
+		{
+			ABCHECK(CurrentCombo == 0);
+			AttackStartComboState();
+			MyAnim->PlayAttackMontage();
+			//beChecked = true;
+			//MyAnim->JumpToAttackMontageSection(CurrentCombo);//강제 이동이 아닌 조건성립으로
+			IsAttacking = true;
+		}
 	}
 
 }
@@ -441,6 +445,15 @@ void AMyCharacter::SAttack()
 	IsSAttacking = true;
 }
 
+void AMyCharacter::Damaged()
+{
+	if (IsDamaging) return;
+
+	MyAnim->PlayDamagedMontage();
+	IsDamaging = true;
+
+}
+
 void AMyCharacter::OnAttackMontageEnded(UAnimMontage* Montage, bool bInterrupted)
 {
 	//ABCHECK(IsAttacking);
@@ -463,6 +476,17 @@ void AMyCharacter::OnTAttackMontageEnded(UAnimMontage* Montage, bool bInterrupte
 	//ABCHECK(CurrentCombo > 0);
 	IsTAttacking = false;
 	TAttackEndComboState();
+}
+
+void AMyCharacter::OnDamagedMontageEnded(UAnimMontage* Montage, bool bInterrupted)
+{
+	//ABCHECK(IsDamaging);
+
+	//IsAttacking = false;
+	IsDamaging = false;
+
+	//OnAttackEnd.Broadcast();
+
 }
 
 void AMyCharacter::AttackStartComboState()
@@ -540,6 +564,8 @@ void AMyCharacter::AttackCheck()
 			
 		
 			HitResult.Actor->TakeDamage(WarriorStat->GetAttack(), DamageEvent, GetController(), this);
+
+			Damaged();
 		}
 	}
 }
@@ -590,6 +616,7 @@ void AMyCharacter::SAttackCheck()
 			
 			HitResult.Actor->TakeDamage(WarriorStat->GetSAttack(), DamageEvent, GetController(), this);
 			
+			Damaged();
 		}
 	}
 }
@@ -639,6 +666,8 @@ void AMyCharacter::TAttackCheck()
 
 
 			HitResult.Actor->TakeDamage(WarriorStat->GetAttack(), DamageEvent, GetController(), this);
+
+			Damaged();
 		}
 	}
 }

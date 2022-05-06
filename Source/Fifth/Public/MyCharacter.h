@@ -60,6 +60,7 @@ private:
 	void Attack();
 	void SAttack();
 	void TAttack();
+	void Damaged();
 
 	UFUNCTION()
 		void OnAttackMontageEnded(UAnimMontage* Montage, bool bInterrupted);
@@ -67,6 +68,8 @@ private:
 		void OnSAttackMontageEnded(UAnimMontage* Montage, bool bInterrupted);
 	UFUNCTION()
 		void OnTAttackMontageEnded(UAnimMontage* Montage, bool bInterrupted);
+	UFUNCTION()
+		void OnDamagedMontageEnded(UAnimMontage* Montage, bool bInterrupted);
 
 	void AttackStartComboState();
 	void AttackEndComboState();
@@ -89,6 +92,9 @@ private:
 
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = TAttack, Meta = (AllowPrivateAccess = true))
 		bool IsTAttacking;
+
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = Damage, Meta = (AllowPrivateAccess = true))
+		bool IsDamaging;
 
 	//강제 이동이 아닌 조건 성립 체크
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = Attack, Meta = (AllowPrivateAccess = true))

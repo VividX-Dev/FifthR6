@@ -198,7 +198,6 @@ void AATank::Tick(float DeltaTime)
 	if (IsDamaging)
 	{
 
-		
 		SetActorLocation(GetActorLocation() + GetWorld()->GetFirstPlayerController()->GetPawn()
 			->GetControlRotation().Vector()/**10*/);
 	}
@@ -347,9 +346,6 @@ void AATank::AttackCheck()
 			FDamageEvent DamageEvent;
 			HitResult.Actor->TakeDamage(TankStat->GetAttack(), DamageEvent, GetController(), this);
 			
-			
-
-		
 			
 			Damaged();
 		}

@@ -27,6 +27,13 @@ UMyAnimInstance::UMyAnimInstance()
 	{
 		TAttackMontage = TATTACK_MONTAGE.Object;
 	}
+
+	static ConstructorHelpers::FObjectFinder<UAnimMontage>
+		DAMAGED_MONTAGE(TEXT("/Game/MyCharacter/Animation/WarriorOfFire_Damaging.WarriorOfFire_Damaging"));
+	if (DAMAGED_MONTAGE.Succeeded())
+	{
+		DamagedMontage = DAMAGED_MONTAGE.Object;
+	}
 }
 
 void UMyAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
@@ -66,6 +73,13 @@ void UMyAnimInstance::PlayTAttackMontage()
 
 }
 
+void UMyAnimInstance::PlayDamagedMontage()
+{
+	//ABLOG(Warning, TEXT("Hey!!"));
+	//ABCHECK(!IsDead);
+	Montage_Play(DamagedMontage, 1.0f);
+
+}
 
 
 void UMyAnimInstance::JumpToAttackMontageSection(int32 NewSection)

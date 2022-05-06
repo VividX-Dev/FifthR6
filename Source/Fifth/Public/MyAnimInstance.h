@@ -27,6 +27,7 @@ public:
 	void PlayAttackMontage();
 	void PlaySAttackMontage();
 	void PlayTAttackMontage();
+	void PlayDamagedMontage();
 
 	void JumpToAttackMontageSection(int32 NewSection);
 	void JumpToTAttackMontageSection(int32 NewSection);
@@ -76,6 +77,9 @@ private:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = TAttack, Meta = (AllowPrivateAccess = true))
 		UAnimMontage* TAttackMontage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Damage, Meta = (AllowPrivateAccess = true))
+		UAnimMontage* DamagedMontage;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta = (AllowPrivateAccess = true))
 		bool IsDead;

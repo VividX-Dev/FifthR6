@@ -387,7 +387,7 @@ void AMyCharacter::Turn(float NewAxisValue)
 
 void AMyCharacter::Attack()
 {
-	if (IsDamaging == false) {
+	if (!IsDamaging) {
 		if (IsAttacking)
 		{
 
@@ -447,8 +447,11 @@ void AMyCharacter::SAttack()
 
 void AMyCharacter::Damaged()
 {
+	
+	
 	if (IsDamaging) return;
-
+	
+	
 	MyAnim->PlayDamagedMontage();
 	IsDamaging = true;
 
@@ -519,7 +522,7 @@ void AMyCharacter::TAttackEndComboState()
 	TCurrentCombo = 0;
 }
 
-void AMyCharacter::AttackCheck()
+void AMyCharacter::AttackCheck() //내가 때리는 코드
 {
 	FHitResult HitResult;
 	FCollisionQueryParams Params(NAME_None, false, this);
@@ -557,6 +560,7 @@ void AMyCharacter::AttackCheck()
 	{
 		if (HitResult.Actor.IsValid())
 		{
+			ABLOG(Warning, TEXT("DAMAGE123"));
 			ABLOG(Warning, TEXT("Hit Actor Name: %s"), *HitResult.Actor->GetName());
 
 			FDamageEvent DamageEvent;
@@ -565,7 +569,7 @@ void AMyCharacter::AttackCheck()
 		
 			HitResult.Actor->TakeDamage(WarriorStat->GetAttack(), DamageEvent, GetController(), this);
 
-			Damaged();
+			//Damaged();
 		}
 	}
 }

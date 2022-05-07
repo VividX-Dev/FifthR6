@@ -75,6 +75,7 @@ void UMyAnimInstance::PlayTAttackMontage()
 
 void UMyAnimInstance::PlayDamagedMontage()
 {
+	
 	//ABLOG(Warning, TEXT("Hey!!"));
 	//ABCHECK(!IsDead);
 	Montage_Play(DamagedMontage, 1.0f);

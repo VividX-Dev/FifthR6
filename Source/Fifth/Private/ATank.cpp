@@ -61,6 +61,7 @@ AATank::AATank()
 
 	IsAttacking = false;
 
+	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &AATank::DeathOverlap);
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("ATank"));
 
 	AttackRange = 200.0f;
@@ -78,6 +79,15 @@ AATank::AATank()
 	
 	
 	DeadTimer = 5.0f;
+}
+
+void AATank::DeathOverlap(UPrimitiveComponent* OverlappedComp,
+	AActor* OtherActor, UPrimitiveComponent* OtherComp,
+	int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	ABLOG_S(Warning);
+	TankStat->SetHP(0);
+
 }
 
 void AATank::OnAssetLoadCompleted()
@@ -272,6 +282,7 @@ void AATank::Attack()
 
 void AATank::Damaged()
 {
+	//ABLOG(Warning, TEXT("TANK HIT"));
 	if (IsDamaging) return;
 	
 	ATAnim->PlayDamagedMontage();
@@ -345,7 +356,6 @@ void AATank::AttackCheck()
 
 			FDamageEvent DamageEvent;
 			HitResult.Actor->TakeDamage(TankStat->GetAttack(), DamageEvent, GetController(), this);
-			
 			
 			Damaged();
 		}

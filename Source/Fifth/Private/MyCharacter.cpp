@@ -31,7 +31,9 @@ AMyCharacter::AMyCharacter()
 	SpringArm->TargetArmLength = 400.0f;
 	SpringArm->SetRelativeRotation(FRotator(-15.0f, 0.0f, 0.0f));
 
-	
+	PL = CreateDefaultSubobject<UPointLightComponent>(TEXT("PL"));
+	PL->SetupAttachment(GetCapsuleComponent());
+	PL->AddRelativeLocation(FVector(0.0f, 0.0f, 150.0f));
 
 	GetMesh()->SetAnimationMode(EAnimationMode::AnimationBlueprint);
 
@@ -140,7 +142,7 @@ void AMyCharacter::SetWarriorState(ECharacterState NewState)
 			});
 
 		SetControlMode(0);
-		GetCharacterMovement()->MaxWalkSpeed = 1000.0f;
+		GetCharacterMovement()->MaxWalkSpeed = 700.0f;
 		EnableInput(MyPlayerController);
 
 		break;

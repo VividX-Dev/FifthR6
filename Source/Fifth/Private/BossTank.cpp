@@ -6,6 +6,8 @@
 #include "BossStatComponent.h"
 #include "DrawDebugHelpers.h"
 #include "BossAIController.h"
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
 
 // Sets default values
 ABossTank::ABossTank()
@@ -110,12 +112,17 @@ void ABossTank::PostInitializeComponents()
 float ABossTank::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator,
 	AActor* DamageCauser)
 {
+	ABLOG(Warning, TEXT("BOSSDAMAGED"));
 	float FinalDamage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 	ABLOG(Warning, TEXT("Actor : %s took Damage : %f"), *GetName(), FinalDamage);
 	Damaged();
 	BossStat->SetDamage(FinalDamage);
 
-
+	UNiagaraSystem* HitEffect =
+		Cast<UNiagaraSystem>(StaticLoadObject(UNiagaraSystem::StaticClass(), NULL,
+			TEXT("/Game/Effect/Hit.Hit")));
+	UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), HitEffect,
+		this->GetActorLocation() + FVector(100.0f, 20.0f, 0.0f), this->GetActorRotation());
 
 	return FinalDamage;
 }

@@ -6,6 +6,7 @@
 UMyAnimInstance::UMyAnimInstance()
 {
 	CurrentPawnSpeed = 0.0f;
+	IsInAir = false;
 	IsDead = false;
 	static ConstructorHelpers::FObjectFinder<UAnimMontage> ATTACK_MONTAGE(
 		TEXT("/Game/MyCharacter/Animation/WarriorOfFire_OneHandSword_Combo.WarriorOfFire_OneHandSword_Combo"));
@@ -43,6 +44,14 @@ void UMyAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	auto Pawn = TryGetPawnOwner();
 
 	if (!::IsValid(Pawn)) return;
+	
+		/*CurrentPawnSpeed = Pawn->GetVelocity().Size();
+		auto Character = Cast<ACharacter>(Pawn);
+		if (Character)
+		{
+			IsInAir = Character->GetMovementComponent()->IsFalling();
+		}*/
+	
 
 
 	if (!IsDead)

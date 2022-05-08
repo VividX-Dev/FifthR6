@@ -59,8 +59,9 @@ void AStone::MyOverlap(UPrimitiveComponent* OverlappedComp,
 	int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	ABLOG_S(Warning);
-	//SetActorLocation((FVector(-13.0f, -529.0f, -733.0f)));
-	SetActorLocation(GetActorLocation()+ (FVector(0.0f, 0.0f, 300.0f)));
+	//SetActorRotator
+	SetActorRelativeRotation(GetActorRotation()+(FRotator(20.0f, 0.0f, 0.0f)));
+	//TriggerON = true;
 	
 }
 
@@ -71,6 +72,12 @@ void AStone::MyOverlap(UPrimitiveComponent* OverlappedComp,
 void AStone::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	//if (TriggerON==true) {
+		//SetActorLocation(GetActorLocation() + (FVector(0.0f, 0.0f, 1000.0f)));
+		//ABLOG(Warning, TEXT("TRIGGERON"));
+		//Body->AddWorldTransform(FTransform(FRotator(0.0f, 0.0f, 0.0f), 
+			//FVector(0.0f, 0.0f, 10.0f),
+			//FVector(0.0f, 0.0f, 0.0f)));
+	//}
 }
 
